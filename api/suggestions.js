@@ -15,16 +15,11 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
 
-    try {
-        const prompt = req.body?.prompt || "Suggest 5 music genres";
-        const completion = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: prompt }],
-        });
+    const prompt = req.body?.prompt || "Suggest 5 playlists";
+    const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
+    });
 
-        res.status(200).json({ suggestions: completion.data.choices[0].message.content });
-    } catch (error) {
-        console.error("OpenAI error:", error.message);
-        res.status(500).json({ error: error.message });
-    }
+    res.status(200).json({ suggestions: completion.data.choices[0].message.content });
 }
