@@ -5,6 +5,14 @@ const openai = new OpenAIApi(new Configuration({
 }));
 
 export default async function handler(req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+
     const prompt = req.body?.prompt || "Suggest 5 songs";
     const response = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
